@@ -1,0 +1,17 @@
+pre {
+    border-left: 3px solid #705ec8;
+    color: #5b7fff;
+    padding: 1.5rem;
+    overflow: auto;
+    font-size: 85%;
+    line-height: 1.45;
+    background-color: #f8fafc;
+    border-radius: 3px;
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+}
