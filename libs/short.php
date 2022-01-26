@@ -1,5 +1,4 @@
 <?php
-
 class short extends engine {
 	public function __construct() {
 		parent::__construct();
@@ -23,7 +22,7 @@ class short extends engine {
 	
 	public function get($id) {
 		if( empty($id) ) return!1;
-		$exe = $this->db->execute('SELECT id, link FROM links WHERE uniq_id = ?', $id);
+		$exe = $this->db->execute('SELECT id, link FROM links WHERE uniq_id = BINARY ?', $id);
 		$select = $this->db->super_query($exe);
 		if( isset($select['id']) ) {
 			$this->db->query('UPDATE links SET open = open+1 WHERE id = '.$select['id']);
@@ -41,12 +40,17 @@ class short extends engine {
 	
 	private function _gen_id() {
 		$id = $this->gen_key();
-		$exe = $this->db->execute('SELECT id FROM links WHERE uniq_id = ? LIMIT 1', $id);
+		$exe = $this->db->execute('SELECT id FROM links WHERE uniq_id = BINARY ? LIMIT 1', $id);
 		$select = $this->db->super_query($exe);
 		if( isset($select['id']) ) {
 			return $this->_gen_id();
 		} else {
 			return $id;
 		}
+	}
+	
+	public function validate_url($url) {
+		if( preg_match('#^http(s)?://'.$this->cfg->host['home'].'/s(/.*)?#i', $url) ) return!1;
+		return preg_match('|^http(s)?://[a-z0-9-]+(.[a-z0-9-]+)*(:[0-9]+)?(/.*)?.*?$|i', $url);
 	}
 }
